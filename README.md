@@ -1,2 +1,2 @@
-# BB_app_review_analyser
-Scrap BB app reviews and classify them (might change)
+# Google_Play_app_review_scrapper
+Scraps n reviews from a Google Play app.
