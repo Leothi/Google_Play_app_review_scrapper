@@ -20,7 +20,9 @@ How to run the project.
 * Use `python3 scrapper.py arg1 arg2`, where arg1 is the full app reviews website and arg2 the number of reviews to scrap.
 * Example:
 
-`python3 https://play.google.com/store/apps/details?id=com.sagosago.Babies.googleplay&hl=pt&showAllReviews=true 500`
+```sh 
+python3 "https://play.google.com/store/apps/details?id=com.sagosago.Babies.googleplay&hl=pt&showAllReviews=true" 500
+```
 
 ## Authors
 
