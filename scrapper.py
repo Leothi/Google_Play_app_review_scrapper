@@ -11,8 +11,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException, WebDriverException, NoSuchElementException
 
-from utils_text import strip_accents, preprocess_text
-
 chrome_options = Options()
 chrome_options.add_argument('headless')
 
@@ -91,20 +89,16 @@ def scrapper(link: str, num_reviews: int, verbose: bool = False):
                     driver.execute_script(
                         "arguments[0].click();", show_more_button)
                 except NoSuchElementException:
-                    print('excep')
+                    pass
 
             # Putting all reviews in a dict
             if not any([excep_name, excep_date, excep_description]):
-                pre_processed_text = preprocess_text(current_name.text)
-                reviews_dict['name'].append(pre_processed_text)
+                excep_counter = 0
 
-                pre_processed_description = preprocess_text(
-                    current_description.text)
-                reviews_dict['review'].append(pre_processed_description)
-
+                reviews_dict['name'].append(current_name.text)
+                reviews_dict['raw_review'].append(current_description.text)
                 reviews_dict['date'].append(current_date.text)
 
-                excep_counter = 0
                 logger.info(f'Review #{i+1} DONE')
             else:
                 excep_counter += 1
@@ -121,7 +115,7 @@ def scrapper(link: str, num_reviews: int, verbose: bool = False):
 def save_reviews(all_reviews: dict, output_file: str = 'scrapper_results.csv'):
     if all_reviews:
         df = pd.DataFrame(all_reviews)
-        df.to_csv(output_file, ';', index=False)
+        df.to_csv(output_file, index=False)
         logger.success('[+] CSV file created')
     else:
         logger.warning('All_reviews dict empty')
