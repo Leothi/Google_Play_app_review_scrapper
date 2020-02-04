@@ -31,4 +31,4 @@ python3 "https://play.google.com/store/apps/details?id=com.sagosago.Babies.googl
 ## Acknowledgments
 
 * Any help or tip, feel free to contact me.
-* It's been tested mainly with Portuguese language. Might not work with other ones.
+* It's been tested mainly with Portuguese. Might not work with other languages.
