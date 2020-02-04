@@ -9,7 +9,7 @@ How to run the project.
 ### Prerequisites
 
 * All requirements installed;
-* Firefox geckodriver on path.
+* Google Chrome webdriver on path.
 
 ### Installing
 
@@ -31,3 +31,4 @@ python3 "https://play.google.com/store/apps/details?id=com.sagosago.Babies.googl
 ## Acknowledgments
 
 * Any help or tip, feel free to contact me.
+* It's been tested mainly with Portuguese language. Might not work with other ones.
