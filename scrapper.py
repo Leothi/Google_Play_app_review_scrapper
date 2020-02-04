@@ -163,7 +163,7 @@ def save_reviews(all_reviews: dict):
 
     """
     random_number_name = random.randint(0, 1000)
-    output_file: f'scrapper_results_{random_number_name}.csv'
+    output_file = f'scrapper_results_{random_number_name}.csv'
 
     if all_reviews:
         df = pd.DataFrame(all_reviews)
