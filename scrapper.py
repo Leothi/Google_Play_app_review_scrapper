@@ -18,11 +18,20 @@ chrome_options.add_argument('headless')
 logger.add("scrapper.log")
 
 excep_counter = 0
-random_number_name = random.randint(0, 1000)
 RE_STARS = re.compile(r'(?:Avaliado com )(\d)')
 
 
-def scrapper(link: str, num_reviews: int, verbose: bool = False):
+def scrapper(link: str, num_reviews: int):
+    """ Scraps app reviews from Google Store.
+    :type link:str:
+    :param link:str: All reviews link from Google Store
+
+    :type num_reviews:int:
+    :param num_reviews:int: Number of reviews to extract
+
+    :rtype: dict
+    :return: dict with all extracted reviews
+    """
     reviews_dict = defaultdict(list)
 
     with webdriver.Chrome(options=chrome_options) as driver:
@@ -134,6 +143,7 @@ def scrapper(link: str, num_reviews: int, verbose: bool = False):
                 reviews_dict['stars'].append(current_stars_text)
 
                 logger.info(f'Review #{i+1} DONE')
+            # If there's an exception on iteration, increment a counter to stop the program
             else:
                 excep_counter += 1
                 logger.warning(
@@ -146,7 +156,15 @@ def scrapper(link: str, num_reviews: int, verbose: bool = False):
         return reviews_dict
 
 
-def save_reviews(all_reviews: dict, output_file: str = f'scrapper_results_{random_number_name}.csv'):
+def save_reviews(all_reviews: dict):
+    """ Saves extracted reviews in a CSV file
+    :type all_reviews:dict:
+    :param all_reviews:dict: extracted reviews dict
+
+    """
+    random_number_name = random.randint(0, 1000)
+    output_file: f'scrapper_results_{random_number_name}.csv'
+
     if all_reviews:
         df = pd.DataFrame(all_reviews)
         df.to_csv(output_file, index=False)
