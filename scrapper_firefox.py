@@ -1,21 +1,24 @@
-import pandas as pd
 import random
 import re
-
-from sys import argv
-from loguru import logger
 from collections import defaultdict
+from sys import argv
+
+import pandas as pd
+from loguru import logger
 from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import (NoSuchElementException,
+                                        TimeoutException, WebDriverException)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import TimeoutException, WebDriverException, NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 options = webdriver.FirefoxOptions()
-options.headless = True
+options.headless = False
 
-logger.add("scrapper.log")
+random_number_name = random.randint(0, 1000)
+
+logger.add(f"scrapper_{random_number_name}.log")
 
 excep_counter = 0
 RE_STARS = re.compile(r'(?:Avaliado com )(\d)')
@@ -142,7 +145,7 @@ def scrapper(link: str, num_reviews: int):
                 reviews_dict['likes'].append(current_likes_text)
                 reviews_dict['stars'].append(current_stars_text)
 
-                logger.info(f'Review #{i+1} DONE')
+                logger.debug(f'[+] Review #{i+1} DONE')
             # If there's an exception on iteration, increment a counter to stop the program
             else:
                 excep_counter += 1
@@ -150,7 +153,7 @@ def scrapper(link: str, num_reviews: int):
                     f'Review #{i+1} NOT DONE, terminating in {3-excep_counter}')
 
                 if excep_counter >= 3:
-                    logger.success('[+] Scrapping DONE')
+                    logger.success('[-] Scrapping DONE')
                     break
 
         return reviews_dict
@@ -161,8 +164,7 @@ def save_reviews(all_reviews: dict):
     :type all_reviews:dict:
     :param all_reviews:dict: extracted reviews dict
 
-    """
-    random_number_name = random.randint(0, 1000)
+    """    
     output_file = f'scrapper_results_{random_number_name}.csv'
 
     if all_reviews:
