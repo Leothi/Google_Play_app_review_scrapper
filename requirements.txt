@@ -1,4 +1,4 @@
 pandas==0.24.2
-loguru==0.3.2
+loguru==0.5.3
 selenium==3.141.0
 
